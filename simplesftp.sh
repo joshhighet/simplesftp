@@ -3,7 +3,7 @@
 
 #custom vars
 groupname=sftp #group that will be created for SFTP only users
-uploaddir=/media/disk #directory uploads will be placed, reccomend an external mountpoint
+uploaddir=/media/disk #directory uploads will be placed, reccomend an external mountpoint if in docker....
 sharename=shared #communal user directory name
 userdir=files #user directory name
 appname=simplesftp #appname - should maybe fetch this from execution filename ?
@@ -64,6 +64,7 @@ raise_error() {
 }
 
 #some over-engineered way of checking wether a group exists, should have just used /etc/groups smh
+#broken with zsh
 existance=$(cut -d: -f1 /etc/passwd | xargs groups | grep $groupname)
 #i honestly don't know what I've done here
 groupexistance=$(getent group | awk -F '[,:]' '{ print $1, NF - 3 }' | grep $groupname | sort -k2,2n)
@@ -368,6 +369,7 @@ disable_user() {
       #get user to remove
       read -p 'user to remove: ' user
       #set some exec-specific vars
+      #broken on zsh
       userdir=$(getent passwd "$user" | cut -f6 -d:)
       userstate=$(grep -c "$user" /etc/passwd)
       if

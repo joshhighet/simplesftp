@@ -1,8 +1,6 @@
 FROM alpine
 MAINTAINER Josh Highet <josh@joshhighet.com>
-
 ENV CONTAINER_VERSION 0.2
-
 # runtime deps
 RUN apk update && apk upgrade
 RUN apk add --no-cache openssh ncurses git
